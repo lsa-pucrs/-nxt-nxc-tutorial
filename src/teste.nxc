@@ -1,0 +1,22 @@
+task main()
+{
+    ClearScreen();
+    TextOut(0, LCD_LINE1, "Ola, NXT!");
+    TextOut(0, LCD_LINE3, "Testando motores");
+
+    PlayTone(440, 500);
+    Wait(500);
+
+    OnFwd(OUT_B, 50);
+    OnFwd(OUT_C, 50);
+
+    Wait(2000);
+
+    Off(OUT_B);
+    Off(OUT_C);
+
+    PlayTone(660, 300);
+    Wait(300);
+
+    TextOut(0, LCD_LINE5, "Fim do teste!");
+}

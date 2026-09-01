@@ -1,0 +1,55 @@
+task main()
+{
+    // ---------- CONFIGURACAO INICIAL ----------
+    SetSensorLowspeed(IN_1);           // Configura sensor ultrassonico na porta 1
+    ClearScreen();
+    TextOut(0, LCD_LINE1, "Robo Desviador");
+    TextOut(0, LCD_LINE2, "Iniciando...");
+    PlayTone(523, 300);
+    Wait(1000);
+
+    int distancia;
+    int distanciaMinima = 20;          // Distancia minima em cm para desviar
+
+    // ---------- LOOP PRINCIPAL ----------
+    while (true)
+    {
+        distancia = SensorUS(IN_1);
+
+        ClearScreen();
+        TextOut(0, LCD_LINE1, "Distancia:");
+        NumOut(0, LCD_LINE2, distancia);
+
+        if (distancia < distanciaMinima && distancia > 0)
+        {
+            // Obstaculo detectado
+            TextOut(0, LCD_LINE4, "Obstaculo!");
+            PlayTone(300, 200);
+
+            Off(OUT_B);
+            Off(OUT_C);
+            Wait(200);
+
+            OnRev(OUT_B, 50);
+            OnRev(OUT_C, 50);
+            Wait(500);
+            Off(OUT_B);
+            Off(OUT_C);
+
+            OnFwd(OUT_B, 50);
+            OnRev(OUT_C, 50);
+            Wait(600);
+            Off(OUT_B);
+            Off(OUT_C);
+        }
+        else
+        {
+            // Caminho livre
+            TextOut(0, LCD_LINE4, "Livre - Andando");
+            OnFwd(OUT_B, 60);
+            OnFwd(OUT_C, 60);
+        }
+
+        Wait(100);
+    }
+}
